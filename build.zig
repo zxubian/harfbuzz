@@ -14,12 +14,15 @@ pub fn build(b: *std.Build) void {
     });
     lib.addCSourceFile(.{ .file = .{ .path = "src/harfbuzz.cc" } });
     lib.linkLibCpp();
-    lib.installHeadersDirectoryOptions(.{
-        .source_dir = .{ .path = "src" },
-        .install_dir = .header,
-        .install_subdir = "harfbuzz",
+    lib.installHeadersDirectory(b.path("./src"), "./harfbuzz", .{
         .exclude_extensions = &.{".cc"},
     });
+    // lib.installHeadersDirectory(.{
+    //     .source_dir = .{ .path = "src" },
+    //     .install_dir = .header,
+    //     .install_subdir = "harfbuzz",
+    //     .exclude_extensions = &.{".cc"},
+    // });
     if (enable_freetype) {
         lib.defineCMacro("HAVE_FREETYPE", "1");
 
